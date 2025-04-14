@@ -1,0 +1,49 @@
+<resources>
+
+    --AddTransaction.xml--
+    <string name="app_name">MAD_LE3</string>
+    <string name="add_transaction">Add Transaction</string>
+    <string name="transaction_type">Transaction Type</string>
+    <string name="income">Income</string>
+    <string name="expense">Expense</string>
+    <string name="title">Title</string>
+    <string name="enter_transaction_title">Enter transaction title</string>
+    <string name="amount">Amount</string>
+    <string name="enter_amount">Enter amount</string>
+    <string name="category">Category</string>
+    <string name="date">Date</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+
+    <string-array name="transaction_categories_array">
+        <item>@string/pick_a_category</item>
+        <item>Food</item>
+        <item>Travel</item>
+        <item>Rent</item>
+        <item>Utilities</item>
+        <item>Entertainment</item>
+        <item>Shopping</item>
+        <item>Health</item>
+        <item>Education</item>
+        <item>Transportation</item>
+        <item>Other Expense</item>
+
+        <item>Salary</item>
+        <item>Freelance</item>
+        <item>Investment Income</item>
+        <item>Bonus</item>
+        <item>Gifts</item>
+        <item>Other Income</item>
+    </string-array>
+
+    --transactions.xml--
+    <string name="transactions">Transactions</string>
+    <string name="filter_by">Filter by:</string>
+    <string name="filter_by_type">Filter by Type</string>
+    <string name="filter_by_category">Filter by Category</string>
+    <string name="edit_transaction">Edit transaction</string>
+    <string name="delete_transaction">Delete transaction</string>
+    <string name="pick_a_category">Pick a category</string>
+</resources>
