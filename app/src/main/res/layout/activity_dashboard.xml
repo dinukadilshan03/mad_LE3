@@ -155,15 +155,19 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <View
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:background="#EEEEEE"
-                android:layout_marginTop="8dp" />
+                android:layout_height="250dp"
+                android:layout_marginTop="16dp" />
+
 
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
+
+
+
 
     <TextView
         android:id="@+id/tvRecentTransactionsTitle"
@@ -184,7 +188,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:contentDescription="List of recent financial transactions"
+        android:contentDescription="@string/list_of_recent_financial_transactions"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

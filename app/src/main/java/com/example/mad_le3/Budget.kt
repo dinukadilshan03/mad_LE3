@@ -97,15 +97,14 @@ class Budget : AppCompatActivity() {
 
         // Load the current budget from SharedPreferences
         val savedBudget = sharedPreferences.getFloat(budgetKey, 0f)
-        textViewCurrentBudget.text = "Current Budget: $savedBudget"
-
+        textViewCurrentBudget.text = "Current Budget: Rs $savedBudget"
         // Calculate current spending
         val totalExpenses = calculateTotalExpenses()
-        textViewCurrentSpending.text = "Current Spending: $totalExpenses"
+        textViewCurrentSpending.text = "Current Spending: Rs $totalExpenses"
 
         // Calculate the remaining budget
         val remainingBudget = savedBudget - totalExpenses
-        textViewRemainingBudget.text = "Remaining Budget: $remainingBudget"
+        textViewRemainingBudget.text = "Remaining Budget: Rs $remainingBudget"
 
         // Update CircularProgressBar after calculations
         val progress = if (savedBudget > 0) {
@@ -162,7 +161,7 @@ class Budget : AppCompatActivity() {
         // Save the new budget in SharedPreferences
         sharedPreferences.edit().putFloat(budgetKey, budget).apply()
         // Update the UI
-        textViewCurrentBudget.text = "Current Budget: $budget"
+        textViewCurrentBudget.text = "Current Budget: Rs $budget"
         // Recalculate and update the remaining budget and progress bar
         calculateRemainingBudget()
     }
@@ -201,14 +200,14 @@ class Budget : AppCompatActivity() {
         val totalExpenses = calculateTotalExpenses()
 
         // Log the values for debugging
-        Log.d("BudgetActivity", "Saved Budget: $savedBudget")
-        Log.d("BudgetActivity", "Total Expenses: $totalExpenses")
+        Log.d("BudgetActivity", "Saved Budget: Rs $savedBudget")
+        Log.d("BudgetActivity", "Total Expenses: Rs $totalExpenses")
 
         // Calculate the remaining budget
         val remainingBudget = savedBudget - totalExpenses
 
         // Display the remaining budget in the TextView
-        textViewRemainingBudget.text = "Remaining Budget: $remainingBudget"
+        textViewRemainingBudget.text = "Remaining Budget: Rs $remainingBudget"
 
         // Calculate the progress
         val progress = if (savedBudget > 0) {

@@ -49,4 +49,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.gson)
     implementation(libs.circularprogressbar)
+    implementation(libs.mpandroidchart)
 }

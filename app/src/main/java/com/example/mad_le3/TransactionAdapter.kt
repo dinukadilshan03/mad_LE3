@@ -27,7 +27,7 @@ class TransactionAdapter(
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val currentTransaction = transactions[position]
         holder.titleTextView.text = currentTransaction.title
-        holder.amountTextView.text = String.format("%.2f $", currentTransaction.amount)
+        holder.amountTextView.text = String.format("Rs. %.2f", currentTransaction.amount)
         if (currentTransaction.type == "Expense") {
             holder.amountTextView.setTextColor(holder.itemView.resources.getColor(android.R.color.holo_red_dark, null))
         } else {

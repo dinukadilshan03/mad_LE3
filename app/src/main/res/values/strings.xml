@@ -67,4 +67,5 @@
     <string name="_10_500_00">$10,500.00</string>
     <string name="current_balance">Current Balance</string>
     <string name="welcome_back">Welcome Back!</string>
+    <string name="list_of_recent_financial_transactions">List of recent financial transactions</string>
 </resources>
