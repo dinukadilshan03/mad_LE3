@@ -46,4 +46,16 @@
     <string name="edit_transaction">Edit transaction</string>
     <string name="delete_transaction">Delete transaction</string>
     <string name="pick_a_category">Pick a category</string>
+
+
+    --budget.xml--
+    <string name="set_monthly_budget">Change Monthly Budget</string>
+    <string name="enter_monthly_budget">Enter Monthly Budget</string>
+    <string name="current_spending_0">Current Spending: $0</string>
+    <string name="remaining_budget_0">Remaining Budget: $0</string>
+    <string name="save_budget">Save Budget</string>
+    <string name="displays_a_warning_if_the_user_is_exceeding_or_close_to_exceeding_their_budget">Displays a warning if the user is exceeding or close to exceeding their budget.</string>
+    <string name="warning" />
+    <string name="monthly_budget">Set Monthly Budget</string>
+    <string name="current_budget_0">Current Budget: $0</string>
 </resources>
