@@ -1,6 +1,7 @@
 package com.example.mad_le3
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mad_le3.model.Transaction
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -37,6 +39,45 @@ class Transactions : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
+        }
+
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        bottomNavigationView.selectedItemId = R.id.nav_backup
+
+        // Use the new method setOnItemSelectedListener to handle item clicks
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_dashboard -> {
+                    // Navigate to HomeActivity
+                    val intent = Intent(this, Dashboard::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_add -> {
+                    // Navigate to SearchActivity
+                    val intent = Intent(this, AddTransaction::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_budget -> {
+                    // Navigate to ProfileActivity
+                    val intent = Intent(this, Budget::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_backup -> {
+                    // Navigate to ProfileActivity
+                    val intent = Intent(this, Transactions::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
         }
 
         transactionsRecyclerView = findViewById(R.id.transactionsRecyclerView)

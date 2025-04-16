@@ -1,6 +1,7 @@
 package com.example.mad_le3
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.mad_le3.model.Transaction
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
@@ -41,6 +43,44 @@ class Budget : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
+        }
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        bottomNavigationView.selectedItemId = R.id.nav_budget
+
+        // Use the new method setOnItemSelectedListener to handle item clicks
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_dashboard -> {
+                    // Navigate to HomeActivity
+                    val intent = Intent(this, Dashboard::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_add -> {
+                    // Navigate to SearchActivity
+                    val intent = Intent(this, AddTransaction::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_budget -> {
+                    // Navigate to ProfileActivity
+                    val intent = Intent(this, Budget::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_backup -> {
+                    // Navigate to ProfileActivity
+                    val intent = Intent(this, Transactions::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
         }
 
         // Initialize views

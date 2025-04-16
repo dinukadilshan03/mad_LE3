@@ -23,6 +23,8 @@ class Dashboard : AppCompatActivity() {
         // Get reference to BottomNavigationView
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
 
+        bottomNavigationView.selectedItemId = R.id.nav_dashboard
+
         // Use the new method setOnItemSelectedListener to handle item clicks
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
