@@ -31,6 +31,7 @@ class Dashboard : AppCompatActivity() {
     private lateinit var rvTransactions: RecyclerView
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var transactionAdapter: TransactionAdapter
 
     private val gson = Gson()
     private val transactionKey = "transactions_list"
@@ -126,8 +127,18 @@ class Dashboard : AppCompatActivity() {
         val sortedTransactions = transactions.sortedByDescending { it.getDateAsDate() }
 
         rvTransactions.layoutManager = LinearLayoutManager(this)  // Use vertical layout for RecyclerView
-        rvTransactions.adapter = TransactionAdapter(sortedTransactions)  // Pass sorted transactions to adapter
+
+        // Pass the onItemClickListener to the adapter
+        transactionAdapter = TransactionAdapter(sortedTransactions) { transaction ->
+            // When an item is clicked, navigate to EditTransaction activity
+            val intent = Intent(this, EditTransaction::class.java)
+            intent.putExtra("transaction", transaction)  // Pass the selected transaction data
+            startActivity(intent)
+        }
+
+        rvTransactions.adapter = transactionAdapter // Set the adapter to the RecyclerView
     }
+
 
     // Set up PieChart with spending breakdown data
     private fun setupPieChart(transactions: List<Transaction>) {

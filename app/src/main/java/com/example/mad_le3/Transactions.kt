@@ -56,21 +56,21 @@ class Transactions : AppCompatActivity() {
                 }
 
                 R.id.nav_add -> {
-                    // Navigate to SearchActivity
+                    // Navigate to AddTransaction
                     val intent = Intent(this, AddTransaction::class.java)
                     startActivity(intent)
                     true
                 }
 
                 R.id.nav_budget -> {
-                    // Navigate to ProfileActivity
+                    // Navigate to BudgetActivity
                     val intent = Intent(this, Budget::class.java)
                     startActivity(intent)
                     true
                 }
 
                 R.id.nav_backup -> {
-                    // Navigate to ProfileActivity
+                    // Navigate to Transactions
                     val intent = Intent(this, Transactions::class.java)
                     startActivity(intent)
                     true
@@ -92,7 +92,15 @@ class Transactions : AppCompatActivity() {
 
         // Set up RecyclerView
         transactionsRecyclerView.layoutManager = LinearLayoutManager(this)
-        transactionAdapter = TransactionAdapter(filteredTransactions) // Create the adapter with the data
+
+        // Pass the listener directly when initializing the adapter
+        transactionAdapter = TransactionAdapter(filteredTransactions) { transaction ->
+            // When an item is clicked, navigate to EditTransaction activity
+            val intent = Intent(this, EditTransaction::class.java)
+            intent.putExtra("transaction", transaction)  // Pass the selected transaction data
+            startActivity(intent)
+        }
+
         transactionsRecyclerView.adapter = transactionAdapter // Set the adapter to the RecyclerView
 
         // Populate filter spinners
