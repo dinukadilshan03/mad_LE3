@@ -58,4 +58,13 @@
     <string name="warning" />
     <string name="monthly_budget">Set Monthly Budget</string>
     <string name="current_budget_0">Current Budget: $0</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="spending_breakdown">Spending Breakdown</string>
+    <string name="_1_800_00">-$1,800.00</string>
+    <string name="expenses_this_month">Expenses (This Month)</string>
+    <string name="_3_200_00">+$3,200.00</string>
+    <string name="income_this_month">Income (This Month)</string>
+    <string name="_10_500_00">$10,500.00</string>
+    <string name="current_balance">Current Balance</string>
+    <string name="welcome_back">Welcome Back!</string>
 </resources>
