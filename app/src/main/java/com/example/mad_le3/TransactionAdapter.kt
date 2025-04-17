@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mad_le3.model.Transaction
 
 class TransactionAdapter(
-    private val transactions: List<Transaction>
+    private val transactions: List<Transaction>,
+    private val onItemClickListener: (Transaction) -> Unit // Click listener passed as a parameter
 ) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
     class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -28,13 +29,21 @@ class TransactionAdapter(
         val currentTransaction = transactions[position]
         holder.titleTextView.text = currentTransaction.title
         holder.amountTextView.text = String.format("Rs. %.2f", currentTransaction.amount)
+
+        // Change text color for expense transactions
         if (currentTransaction.type == "Expense") {
             holder.amountTextView.setTextColor(holder.itemView.resources.getColor(android.R.color.holo_red_dark, null))
         } else {
             holder.amountTextView.setTextColor(holder.itemView.resources.getColor(android.R.color.holo_green_dark, null))
         }
+
         holder.categoryTextView.text = currentTransaction.category
         holder.typeTextView.text = currentTransaction.type
+
+        // Set up click listener for the item
+        holder.itemView.setOnClickListener {
+            onItemClickListener(currentTransaction) // Trigger the listener with the selected transaction
+        }
     }
 
     override fun getItemCount() = transactions.size
