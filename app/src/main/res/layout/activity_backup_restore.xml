@@ -1,0 +1,40 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    tools:context=".BackupRestore">
+
+    <Button
+        android:id="@+id/buttonBackup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/backup_transactions_internal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="?android:attr/actionBarSize"/>
+
+    <Button
+        android:id="@+id/buttonRestore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/restore_transactions_internal"
+        app:layout_constraintTop_toBottomOf="@+id/buttonBackup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <Button
+        android:id="@+id/buttonExportJson"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/export_transactions_json"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRestore"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

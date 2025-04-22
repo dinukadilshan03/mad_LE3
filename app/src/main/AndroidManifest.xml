@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,20 +13,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MAD_LE3"
-        tools:targetApi="31">
+        tools:targetApi="31" >
         <activity
-            android:name=".EditTransaction"
+            android:name=".Settings"
             android:exported="false" />
-        <!-- Set Dashboard as the default activity to launch -->
         <activity
-            android:name=".Dashboard"
-            android:exported="true">
+            android:name=".BackupRestore"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Budget Activity (No longer the launcher) -->
+        </activity>
+        <activity
+            android:name=".Ob3"
+            android:exported="false" />
+        <activity
+            android:name=".Ob2"
+            android:exported="false" />
+        <activity
+            android:name=".Ob1"
+            android:exported="false" />
+        <activity
+            android:name=".EditTransaction"
+            android:exported="false" />
+        <activity
+            android:name=".Dashboard"
+            android:exported="false" >
+        </activity>
         <activity
             android:name=".Budget"
             android:exported="true" />
