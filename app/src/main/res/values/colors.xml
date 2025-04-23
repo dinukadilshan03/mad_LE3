@@ -9,6 +9,10 @@
     <color name="expense_color">#ff0000</color>
     <color name="income_color">#00cc00</color>
 
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="accent">#007BFF</color> ```
+
 
 
 

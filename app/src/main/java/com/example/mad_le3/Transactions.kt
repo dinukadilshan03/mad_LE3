@@ -1,5 +1,6 @@
 package com.example.mad_le3
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -22,6 +24,7 @@ import com.google.gson.reflect.TypeToken
 class Transactions : AppCompatActivity() {
 
     private lateinit var transactionsRecyclerView: RecyclerView
+    private lateinit var viewSpendingButton: Button
     private lateinit var transactionAdapter: TransactionAdapter
     private lateinit var filterTypeSpinner: Spinner
     private lateinit var filterCategorySpinner: Spinner
@@ -30,6 +33,10 @@ class Transactions : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
     private val transactionKey = "transactions_list"
+
+    companion object {
+        const val EDIT_TRANSACTION_REQUEST_CODE = 123
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +47,12 @@ class Transactions : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
         }
+        viewSpendingButton = findViewById(R.id.buttonViewSpending)
+
+        viewSpendingButton.setOnClickListener {
+            val intent = Intent(this, CategorySpending::class.java)
+            startActivity(intent)
+        }
 
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
 
@@ -49,33 +62,25 @@ class Transactions : AppCompatActivity() {
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_dashboard -> {
-                    // Navigate to HomeActivity
                     val intent = Intent(this, Dashboard::class.java)
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_add -> {
-                    // Navigate to AddTransaction
                     val intent = Intent(this, AddTransaction::class.java)
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_budget -> {
-                    // Navigate to BudgetActivity
                     val intent = Intent(this, Budget::class.java)
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_backup -> {
-                    // Navigate to Transactions
                     val intent = Intent(this, Transactions::class.java)
                     startActivity(intent)
                     true
                 }
-
                 else -> false
             }
         }
@@ -95,10 +100,10 @@ class Transactions : AppCompatActivity() {
 
         // Pass the listener directly when initializing the adapter
         transactionAdapter = TransactionAdapter(filteredTransactions) { transaction ->
-            // When an item is clicked, navigate to EditTransaction activity
+            // When an item is clicked, navigate to EditTransaction activity for result
             val intent = Intent(this, EditTransaction::class.java)
             intent.putExtra("transaction", transaction)  // Pass the selected transaction data
-            startActivity(intent)
+            startActivityForResult(intent, EDIT_TRANSACTION_REQUEST_CODE) // Use startActivityForResult
         }
 
         transactionsRecyclerView.adapter = transactionAdapter // Set the adapter to the RecyclerView
@@ -106,6 +111,39 @@ class Transactions : AppCompatActivity() {
         // Populate filter spinners
         setupTypeFilterSpinner()
         setupCategoryFilterSpinner()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == EDIT_TRANSACTION_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK + 1) { // EditTransaction.TRANSACTION_UPDATED_RESULT_CODE
+                val updatedTransaction = data?.getParcelableExtra<Transaction>(EditTransaction.UPDATED_TRANSACTION_EXTRA)
+                updatedTransaction?.let {
+                    val index = allTransactions.indexOfFirst { it.id == updatedTransaction.id }
+                    if (index != -1) {
+                        allTransactions[index] = it
+                        filterTransactions(filterTypeSpinner.selectedItem?.toString(), filterCategorySpinner.selectedItem?.toString())
+                        saveTransactions() // Save the updated list
+                    }
+                }
+            } else if (resultCode == Activity.RESULT_OK + 2) { // EditTransaction.TRANSACTION_DELETED_RESULT_CODE
+                val deletedTransactionIdString = data?.getStringExtra("deleted_transaction_id")
+                deletedTransactionIdString?.toLongOrNull()?.let { deletedTransactionIdLong ->
+                    allTransactions.removeAll { it.id == deletedTransactionIdLong }
+                    filterTransactions(
+                        filterTypeSpinner.selectedItem?.toString(),
+                        filterCategorySpinner.selectedItem?.toString()
+                    )
+                    saveTransactions() // Save the updated list
+                }
+                }
+                else {
+                    // If you didn't pass the ID, simply reload
+                    loadTransactions()
+                    filterTransactions(filterTypeSpinner.selectedItem?.toString(), filterCategorySpinner.selectedItem?.toString())
+                }
+
+        }
     }
 
     private fun loadTransactions() {

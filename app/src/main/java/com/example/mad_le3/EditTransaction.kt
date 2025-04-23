@@ -1,5 +1,6 @@
 package com.example.mad_le3
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -17,28 +18,36 @@ class EditTransaction : AppCompatActivity() {
     private lateinit var categorySpinner: Spinner
     private lateinit var incomeRadioButton: RadioButton
     private lateinit var expenseRadioButton: RadioButton
-    private lateinit var saveButton: Button
+    private lateinit var updateButton: Button
     private lateinit var deleteButton: Button
+    private lateinit var cancelButton: Button
     private lateinit var transaction: Transaction
     private lateinit var sharedPreferences: SharedPreferences
     private val gson = Gson()
     private val transactionKey = "transactions_list"
 
+    companion object {
+        const val TRANSACTION_UPDATED_RESULT_CODE = Activity.RESULT_OK + 1
+        const val UPDATED_TRANSACTION_EXTRA = "updated_transaction"
+        const val TRANSACTION_DELETED_RESULT_CODE = Activity.RESULT_OK + 2
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_transaction) // Reuse the AddTransaction layout
+        setContentView(R.layout.activity_edit_transaction) // Use the edit_transaction layout
 
-        // Initialize views
-        titleEditText = findViewById(R.id.editTextTransactionTitle)
-        amountEditText = findViewById(R.id.editTextAmount)
-        categorySpinner = findViewById(R.id.spinnerCategory)
-        incomeRadioButton = findViewById(R.id.radioButtonIncome)
-        expenseRadioButton = findViewById(R.id.radioButtonExpense)
-        saveButton = findViewById(R.id.buttonSaveTransaction)
-        deleteButton = findViewById(R.id.buttonCancelTransaction)
+        // Initialize views using the IDs from edit_transaction.xml
+        titleEditText = findViewById(R.id.editTextEditTransactionTitle)
+        amountEditText = findViewById(R.id.editTextEditAmount)
+        categorySpinner = findViewById(R.id.spinnerEditCategory)
+        incomeRadioButton = findViewById(R.id.radioButtonEditIncome)
+        expenseRadioButton = findViewById(R.id.radioButtonEditExpense)
+        updateButton = findViewById(R.id.buttonUpdateTransaction)
+        deleteButton = findViewById(R.id.buttonDeleteTransaction)
+        cancelButton = findViewById(R.id.buttonCancelEditTransaction)
 
         // Get the transaction passed from the previous activity
-        transaction = intent.getParcelableExtra("transaction")!!
+        transaction = intent.getParcelableExtra<Transaction>("transaction")!!
 
         // Pre-fill the fields with the transaction data
         titleEditText.setText(transaction.title)
@@ -53,8 +62,8 @@ class EditTransaction : AppCompatActivity() {
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyFinanceApp", Context.MODE_PRIVATE)
 
-        // Set up Save button click listener
-        saveButton.setOnClickListener {
+        // Set up Update button click listener
+        updateButton.setOnClickListener {
             updateTransaction(transaction)
         }
 
@@ -62,44 +71,49 @@ class EditTransaction : AppCompatActivity() {
         deleteButton.setOnClickListener {
             deleteTransaction(transaction)
         }
+
+        // Set up Cancel button click listener
+        cancelButton.setOnClickListener {
+            finish() // Go back to the Transactions activity
+        }
     }
 
-    private fun updateTransaction(transaction: Transaction) {
+    private fun updateTransaction(originalTransaction: Transaction) {
         // Get updated data from UI
         val updatedTitle = titleEditText.text.toString()
-        val updatedAmount = amountEditText.text.toString().toDouble()
+        val updatedAmount = amountEditText.text.toString().toDoubleOrNull() ?: 0.0
         val updatedCategory = categorySpinner.selectedItem.toString()
         val updatedType = if (incomeRadioButton.isChecked) "Income" else "Expense"
 
         // Create the updated transaction
         val updatedTransaction = Transaction(
-            id = transaction.id,
+            id = originalTransaction.id,
             title = updatedTitle,
             amount = updatedAmount,
             category = updatedCategory,
             type = updatedType,
-            date = transaction.date  // Date can be updated if needed
+            date = originalTransaction.date  // Date can be updated if needed (you might want to add a date picker)
         )
 
         // Save updated transaction to SharedPreferences
         saveTransaction(updatedTransaction)
 
-        Toast.makeText(this, "Transaction updated", Toast.LENGTH_SHORT).show()
+        // Create an Intent to send back the updated transaction
+        val resultIntent = Intent()
+        resultIntent.putExtra(UPDATED_TRANSACTION_EXTRA, updatedTransaction)
+        setResult(TRANSACTION_UPDATED_RESULT_CODE, resultIntent)
         finish()  // Go back to the Transactions activity
     }
 
-    private fun deleteTransaction(transaction: Transaction) {
-        // Get the current list of transactions
+    private fun deleteTransaction(transactionToDelete: Transaction) {
         val transactions = loadTransactions()
-
-        // Remove the deleted transaction
-        val updatedTransactions = transactions.filter { it.id != transaction.id }
-
-        // Save the updated list to SharedPreferences
+        val updatedTransactions = transactions.filter { it.id != transactionToDelete.id }
         saveTransactions(updatedTransactions)
 
-        Toast.makeText(this, "Transaction deleted", Toast.LENGTH_SHORT).show()
-        finish()  // Go back to the Transactions activity
+        val resultIntent = Intent()
+        resultIntent.putExtra("deleted_transaction_id", transactionToDelete.id.toString()) // Pass the ID as a String
+        setResult(TRANSACTION_DELETED_RESULT_CODE, resultIntent)
+        finish()
     }
 
     private fun loadTransactions(): MutableList<Transaction> {
@@ -113,17 +127,14 @@ class EditTransaction : AppCompatActivity() {
         sharedPreferences.edit().putString(transactionKey, json).apply()
     }
 
-    private fun saveTransaction(transaction: Transaction) {
+    private fun saveTransaction(transactionToSave: Transaction) {
         val transactions = loadTransactions().toMutableList()
-        val index = transactions.indexOfFirst { it.id == transaction.id }
+        val index = transactions.indexOfFirst { it.id == transactionToSave.id }
 
-        // If the transaction is found, update it, else add the new transaction
+        // If the transaction is found, update it
         if (index != -1) {
-            transactions[index] = transaction
-        } else {
-            transactions.add(transaction)
+            transactions[index] = transactionToSave
         }
-
         saveTransactions(transactions)
     }
 

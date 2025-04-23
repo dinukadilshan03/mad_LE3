@@ -84,4 +84,17 @@
 
 
     <string name="transaction_list">List of transactions</string>
+
+    <string name="update">Update</string>
+    <string name="delete">Delete</string>
+
+    <string name="add">Add</string>
+    <string name="category_spending">Category Spending</string>
+
+    <string name="total_spent">Total Spent:</string>
+    <string name="category_icon">Category Icon</string>
+    <string name="categoryrecycle">categoryRecycle</string>
+
+    <string name="view_spending">View Spending</string>
+    <string name="analyze_spending_by_category">Analyze spending by category</string>
 </resources>

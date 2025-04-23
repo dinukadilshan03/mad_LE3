@@ -1,5 +1,6 @@
 package com.example.mad_le3
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -37,29 +38,29 @@ class Dashboard : AppCompatActivity() {
     private val gson = Gson()
     private val transactionKey = "transactions_list"
 
+    companion object {
+        const val EDIT_TRANSACTION_REQUEST_CODE_DASHBOARD = 456 // Different request code
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_dashboard)
 
         // Initialize views
-        pieChart = findViewById(R.id.pieChart)  // Reference the PieChart
+        pieChart = findViewById(R.id.pieChart)
         tvWelcome = findViewById(R.id.tvWelcome)
         tvCurrentBalance = findViewById(R.id.tvCurrentBalance)
         tvIncome = findViewById(R.id.tvIncome)
         tvExpenses = findViewById(R.id.tvExpenses)
         rvTransactions = findViewById(R.id.rvTransactions)
         bottomNavigationView = findViewById(R.id.bottom_navigation)
-        ivSettings = findViewById(R.id.ivSettings) // Initialize the settings icon ImageView
-
-
+        ivSettings = findViewById(R.id.ivSettings)
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyFinanceApp", Context.MODE_PRIVATE)
 
-
-
-        // Load transactions from SharedPreferences and calculate values
+        // Load transactions and calculate values
         val transactions = loadTransactions()
         val totalIncome = calculateTotalIncome(transactions)
         val totalExpenses = calculateTotalExpenses(transactions)
@@ -70,48 +71,28 @@ class Dashboard : AppCompatActivity() {
         tvExpenses.text = String.format("Rs. %.2f", totalExpenses)
         tvCurrentBalance.text = String.format("Rs. %.2f", balance)
 
-        // Set up RecyclerView for transactions (get transactions from SharedPreferences)
+        // Set up RecyclerView for transactions
         setupRecyclerView()
 
         setupPieChart(transactions)
 
-
-        // Get reference to BottomNavigationView
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
-
+        // Set up BottomNavigationView
         bottomNavigationView.selectedItemId = R.id.nav_dashboard
-
-        // Use the new method setOnItemSelectedListener to handle item clicks
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.nav_dashboard -> {
-                    // Navigate to HomeActivity
-                    val intent = Intent(this, Dashboard::class.java)
-                    startActivity(intent)
-                    true
-                }
-
+                R.id.nav_dashboard -> true
                 R.id.nav_add -> {
-                    // Navigate to SearchActivity
-                    val intent = Intent(this, AddTransaction::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, AddTransaction::class.java))
                     true
                 }
-
                 R.id.nav_budget -> {
-                    // Navigate to ProfileActivity
-                    val intent = Intent(this, Budget::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, Budget::class.java))
                     true
                 }
-
                 R.id.nav_backup -> {
-                    // Navigate to ProfileActivity
-                    val intent = Intent(this, Transactions::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, Transactions::class.java))
                     true
                 }
-
                 else -> false
             }
         }
@@ -125,66 +106,77 @@ class Dashboard : AppCompatActivity() {
 
         // Set click listener for the settings icon
         ivSettings.setOnClickListener {
-            val intent = Intent(this, Settings::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, Settings::class.java))
         }
     }
 
     // Set up RecyclerView with TransactionAdapter
     private fun setupRecyclerView() {
-        val transactions = loadTransactions()  // Load transactions from SharedPreferences
-
-        // Sort transactions by date (newest first)
+        val transactions = loadTransactions()
         val sortedTransactions = transactions.sortedByDescending { it.getDateAsDate() }
 
-        rvTransactions.layoutManager = LinearLayoutManager(this)  // Use vertical layout for RecyclerView
+        rvTransactions.layoutManager = LinearLayoutManager(this)
 
-        // Pass the onItemClickListener to the adapter
         transactionAdapter = TransactionAdapter(sortedTransactions) { transaction ->
-            // When an item is clicked, navigate to EditTransaction activity
             val intent = Intent(this, EditTransaction::class.java)
-            intent.putExtra("transaction", transaction)  // Pass the selected transaction data
-            startActivity(intent)
+            intent.putExtra("transaction", transaction)
+            startActivityForResult(intent, EDIT_TRANSACTION_REQUEST_CODE_DASHBOARD) // Start for result
         }
 
-        rvTransactions.adapter = transactionAdapter // Set the adapter to the RecyclerView
+        rvTransactions.adapter = transactionAdapter
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == EDIT_TRANSACTION_REQUEST_CODE_DASHBOARD) {
+            if (resultCode == Activity.RESULT_OK + 1) { // EditTransaction.TRANSACTION_UPDATED_RESULT_CODE
+                val updatedTransaction = data?.getParcelableExtra<Transaction>(EditTransaction.UPDATED_TRANSACTION_EXTRA)
+                updatedTransaction?.let {
+                    val transactions = loadTransactions().toMutableList()
+                    val index = transactions.indexOfFirst { it.id == updatedTransaction.id }
+                    if (index != -1) {
+                        transactions[index] = it
+                        saveTransactions(transactions) // Save the updated list
+                        setupRecyclerView() // Reload and refresh the RecyclerView
+                        setupPieChart(transactions) // Refresh the pie chart
+                    }
+                }
+            } else if (resultCode == Activity.RESULT_OK + 2) { // Handling for delete
+                val transactions = loadTransactions().toMutableList()
+                val deletedTransactionIdString = data?.getStringExtra("deleted_transaction_id")
+                deletedTransactionIdString?.toLongOrNull()?.let { deletedTransactionIdLong ->
+                    transactions.removeAll { it.id == deletedTransactionIdLong }
+                    saveTransactions(transactions) // Save the updated list
+                    setupRecyclerView() // Reload and refresh the RecyclerView
+                    setupPieChart(transactions) // Refresh the pie chart
+                }
+            }
+        }
+    }
 
     // Set up PieChart with spending breakdown data
     private fun setupPieChart(transactions: List<Transaction>) {
-        // Calculate total expenses per category
         val categoryExpenses = calculateCategoryExpenses(transactions)
-
         val pieEntries = mutableListOf<PieEntry>()
         categoryExpenses.forEach { (category, amount) ->
             pieEntries.add(PieEntry(amount, category))
         }
-
         val pieDataSet = PieDataSet(pieEntries, "Spending Breakdown")
-        pieDataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()  // Apply colorful colors
-
+        pieDataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()
         val pieData = PieData(pieDataSet)
         pieChart.data = pieData
-
-        // Apply animation to the pie chart
-        pieChart.animateY(1000)  // Animation duration of 1 second
-
-        // Refresh the chart
+        pieChart.animateY(1000)
         pieChart.invalidate()
     }
 
     // Calculate total expenses per category
     private fun calculateCategoryExpenses(transactions: List<Transaction>): Map<String, Float> {
         val categoryExpenses = mutableMapOf<String, Float>()
-
-        // Sum up expenses per category
         for (transaction in transactions) {
             if (transaction.type == "Expense") {
                 categoryExpenses[transaction.category] = categoryExpenses.getOrDefault(transaction.category, 0f) + transaction.amount.toFloat()
             }
         }
-
         return categoryExpenses
     }
 
@@ -192,18 +184,22 @@ class Dashboard : AppCompatActivity() {
     private fun loadTransactions(): List<Transaction> {
         val json = sharedPreferences.getString(transactionKey, null)
         val type = object : TypeToken<List<Transaction>>() {}.type
-        return gson.fromJson(json, type) ?: listOf()  // Return an empty list if no transactions exist
+        return gson.fromJson(json, type) ?: listOf()
     }
 
-    // Calculate total income by summing up the "Income" type transactions
+    // Function to save transactions to SharedPreferences
+    private fun saveTransactions(transactions: List<Transaction>) {
+        val json = gson.toJson(transactions)
+        sharedPreferences.edit().putString(transactionKey, json).apply()
+    }
+
+    // Calculate total income
     private fun calculateTotalIncome(transactions: List<Transaction>): Double {
-        return transactions.filter { it.type == "Income" }
-            .sumOf { it.amount }
+        return transactions.filter { it.type == "Income" }.sumOf { it.amount }
     }
 
-    // Calculate total expenses by summing up the "Expense" type transactions
+    // Calculate total expenses
     private fun calculateTotalExpenses(transactions: List<Transaction>): Double {
-        return transactions.filter { it.type == "Expense" }
-            .sumOf { it.amount }
+        return transactions.filter { it.type == "Expense" }.sumOf { it.amount }
     }
 }
