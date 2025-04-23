@@ -97,4 +97,16 @@
 
     <string name="view_spending">View Spending</string>
     <string name="analyze_spending_by_category">Analyze spending by category</string>
+
+
+    <string name="budget_alerts_channel_name">Budget Alerts</string>
+    <string name="budget_alerts_channel_description">Notifications for budget exceeded and 80% usage</string>
+    <string name="budget_exceeded_warning">Warning: You have exceeded your budget!</string>
+    <string name="budget_80_percent_warning">Warning: 80% of your budget exceeded!</string>
+    <string name="budget_exceeded_notification_title">Budget Exceeded!</string>
+    <string name="budget_exceeded_notification_message">Your spending (Rs %.2f) has exceeded your budget (Rs %.2f).</string>
+    <string name="budget_80_percent_notification_title">Budget Alert!</string>
+    <string name="budget_80_percent_notification_message">You have spent 80%% of your budget (Rs %.2f / Rs %.2f).</string>
+    <string name="notification_permission_denied">notification_permission_denied</string>
+
 </resources>

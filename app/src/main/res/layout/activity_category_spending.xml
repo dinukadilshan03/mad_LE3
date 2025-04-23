@@ -11,7 +11,7 @@
         android:id="@+id/toolbarCategorySpending"
         android:layout_width="0dp"
         android:layout_height="120dp"
-        android:background="@color/primary"
+        android:background="@drawable/rounded_top_blue_shape"
         android:elevation="4dp"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
