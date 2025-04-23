@@ -81,4 +81,7 @@
     <string name="backup">Backup</string>
     <string name="restore">Restore</string>
     <string name="backup_data">Backup Data</string>
+
+
+    <string name="transaction_list">List of transactions</string>
 </resources>
