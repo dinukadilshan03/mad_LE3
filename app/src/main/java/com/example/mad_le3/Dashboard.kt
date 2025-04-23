@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -32,7 +33,7 @@ class Dashboard : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var transactionAdapter: TransactionAdapter
-
+    private lateinit var ivSettings: ImageView // Added for settings icon
     private val gson = Gson()
     private val transactionKey = "transactions_list"
 
@@ -49,10 +50,14 @@ class Dashboard : AppCompatActivity() {
         tvExpenses = findViewById(R.id.tvExpenses)
         rvTransactions = findViewById(R.id.rvTransactions)
         bottomNavigationView = findViewById(R.id.bottom_navigation)
+        ivSettings = findViewById(R.id.ivSettings) // Initialize the settings icon ImageView
+
 
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("MyFinanceApp", Context.MODE_PRIVATE)
+
+
 
         // Load transactions from SharedPreferences and calculate values
         val transactions = loadTransactions()
@@ -116,6 +121,12 @@ class Dashboard : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        // Set click listener for the settings icon
+        ivSettings.setOnClickListener {
+            val intent = Intent(this, Settings::class.java)
+            startActivity(intent)
         }
     }
 
