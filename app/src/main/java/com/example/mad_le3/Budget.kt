@@ -1,5 +1,6 @@
 package com.example.mad_le3
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -26,7 +27,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import java.util.*
-import android.Manifest
 
 class Budget : AppCompatActivity() {
 
@@ -55,8 +55,8 @@ class Budget : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
         }
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
 
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.selectedItemId = R.id.nav_budget
 
         bottomNavigationView.setOnItemSelectedListener { item ->
@@ -119,12 +119,12 @@ class Budget : AppCompatActivity() {
         }
     }
 
-    // Function to create the notification channel
+    // Function to create the notification channel (using the new Notification API)
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.budget_alerts_channel_name) // You'll need to define this in strings.xml
+            val name = getString(R.string.budget_alerts_channel_name) // Define this in strings.xml
             val descriptionText = getString(R.string.budget_alerts_channel_description) // Define this as well
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val importance = NotificationManager.IMPORTANCE_HIGH // Priority set to high for budget alerts
             val channel = NotificationChannel(BUDGET_NOTIFICATION_CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
@@ -220,44 +220,45 @@ class Budget : AppCompatActivity() {
         }
     }
 
-    // Function to send a "Budget Exceeded" notification
+    // Function to send a "Budget Exceeded" notification with updated API handling
     private fun sendBudgetExceededNotification(budget: Float, spending: Float) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU ||
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
         ) {
             val builder = NotificationCompat.Builder(this, BUDGET_NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.notificationicon)
                 .setContentTitle(getString(R.string.budget_exceeded_notification_title))
                 .setContentText(getString(R.string.budget_exceeded_notification_message, spending, budget))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // High priority for budget exceeded notifications
                 .setAutoCancel(true)
 
+            // Add actions, sounds, or images if needed
             with(NotificationManagerCompat.from(this)) {
                 notify(BUDGET_EXCEEDED_NOTIFICATION_ID, builder.build())
             }
         } else {
-            Log.w("Budget", "Cannot send budget exceeded notification: Notification permission not granted.");
+            Log.w("Budget", "Cannot send budget exceeded notification: Notification permission not granted.")
             // Optionally, inform the user in the UI that notifications are disabled.
         }
     }
 
     // Function to send a "Budget 80% Exceeded" notification
     private fun sendBudget80PercentExceededNotification(budget: Float, spending: Float) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU ||
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
         ) {
             val builder = NotificationCompat.Builder(this, BUDGET_NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.notificationicon)
                 .setContentTitle(getString(R.string.budget_80_percent_notification_title))
                 .setContentText(getString(R.string.budget_80_percent_notification_message, spending, budget))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH) // High priority for 80% exceeded
                 .setAutoCancel(true)
 
             with(NotificationManagerCompat.from(this)) {
                 notify(BUDGET_80_PERCENT_NOTIFICATION_ID, builder.build())
             }
         } else {
-            Log.w("Budget", "Cannot send 80% budget notification: Notification permission not granted.");
+            Log.w("Budget", "Cannot send 80% budget notification: Notification permission not granted.")
             // Optionally, inform the user in the UI that notifications are disabled.
         }
     }

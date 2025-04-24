@@ -2,9 +2,81 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Ob2">
+    android:id="@+id/main2"
+    android:background="@android:color/white"
+    android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/onboarding_image_2"
+        android:layout_width="387dp"
+        android:layout_height="366dp"
+        android:layout_marginTop="100dp"
+        android:contentDescription="@string/onboarding_image_description_2"
+        android:scaleType="fitCenter"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ob2" />
+
+    <TextView
+    android:id="@+id/onboarding_title_2"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="74dp"
+    android:gravity="center"
+    android:text="Set Budgets and Reach Goals" android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    android:textColor="@android:color/black"
+    android:textSize="28sp"
+    android:textStyle="bold"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/onboarding_image_2" />
+
+    <TextView
+        android:id="@+id/onboarding_description_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Create custom budgets for different categories and track progress towards your financial goals." android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onboarding_title_2" />
+
+    <LinearLayout
+        android:id="@+id/button_layout_2"
+        android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginBottom="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"> <Button
+        android:id="@+id/button_skip_2"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:backgroundTint="@color/black" android:gravity="start|center_vertical"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:text="Skip"
+        android:textColor="@color/primary_text" />
+
+        <Button
+            android:id="@+id/button_next_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#FD715E"
+            android:text="Next" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

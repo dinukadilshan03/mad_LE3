@@ -76,6 +76,8 @@ class EditTransaction : AppCompatActivity() {
         cancelButton.setOnClickListener {
             finish() // Go back to the Transactions activity
         }
+
+
     }
 
     private fun updateTransaction(originalTransaction: Transaction) {

@@ -108,5 +108,8 @@
     <string name="budget_80_percent_notification_title">Budget Alert!</string>
     <string name="budget_80_percent_notification_message">You have spent 80%% of your budget (Rs %.2f / Rs %.2f).</string>
     <string name="notification_permission_denied">notification_permission_denied</string>
+    <string name="onboarding_image_description_1">ob1\n</string>
+    <string name="onboarding_image_description_2">ob2</string>
+    <string name="onboarding_image_description_3">ob3\n</string>
 
 </resources>
