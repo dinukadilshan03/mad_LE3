@@ -62,7 +62,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/primary"
+        android:backgroundTint="@color/primary_blue"
         android:text="@string/analyze_spending_by_category"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

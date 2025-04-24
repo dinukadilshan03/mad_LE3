@@ -9,12 +9,13 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarCategorySpending"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:background="@drawable/rounded_top_blue_shape"
+        android:layout_width="match_parent"
+        android:layout_height="87dp"
+        android:layout_marginTop="42dp"
         android:elevation="4dp"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,10 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="40dp"
             android:text="@string/category_spending"
-            android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textSize="24sp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="119dp"
             tools:layout_editor_absoluteY="37dp" />
@@ -35,10 +35,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categorySpendingRecyclerView"
-        android:contentDescription="@string/categoryrecycle"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:contentDescription="@string/categoryrecycle"
         android:paddingHorizontal="8dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"

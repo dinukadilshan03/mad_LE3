@@ -11,7 +11,6 @@
         android:id="@+id/titlelayout"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:background="@drawable/rounded_top_blue_shape"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -25,7 +24,7 @@
             android:layout_marginEnd="117dp"
             android:layout_marginBottom="38dp"
             android:text="@string/edit_transaction"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -149,7 +148,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="@color/primary"
+                android:backgroundTint="@color/bDarkPurple"
                 android:text="@string/pick_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/selectedEditDateTextView" />
@@ -166,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/primary"
+                    android:backgroundTint="@color/primary_blue"
                     android:text="@string/update" />
 
                 <Button
@@ -175,16 +174,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#FF0505"
+                    android:backgroundTint="@color/expense_color"
                     android:text="@string/delete" />
             </LinearLayout>
 
             <Button
                 android:id="@+id/buttonCancelEditTransaction"
+                style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/cancel" />
+                android:text="@string/cancel"
+                android:textColor="@color/expense_color" />
 
         </LinearLayout>
 

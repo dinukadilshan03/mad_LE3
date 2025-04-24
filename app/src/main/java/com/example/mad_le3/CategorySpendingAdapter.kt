@@ -24,7 +24,7 @@ class CategorySpendingAdapter(private val categorySpendingList: List<CategorySpe
     override fun onBindViewHolder(holder: CategorySpendingViewHolder, position: Int) {
         val currentItem = categorySpendingList[position]
         holder.categoryNameTextView.text = currentItem.category
-        holder.categoryAmountTextView.text = String.format("%.2f", currentItem.totalSpent) // Format to 2 decimal places
+        holder.categoryAmountTextView.text = String.format("Rs %.2f", currentItem.totalSpent) // Format to 2 decimal places
     }
 
     override fun getItemCount() = categorySpendingList.size

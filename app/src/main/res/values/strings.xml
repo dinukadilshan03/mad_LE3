@@ -1,7 +1,7 @@
 <resources>
 
     --AddTransaction.xml--
-    <string name="app_name">MAD_LE3</string>
+    <string name="app_name">Grow</string>
     <string name="add_transaction">Add Transaction</string>
     <string name="transaction_type">Transaction Type</string>
     <string name="income">Income</string>

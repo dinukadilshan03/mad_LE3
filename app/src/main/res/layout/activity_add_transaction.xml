@@ -9,9 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/titlelayout"
-        android:layout_width="0dp"
-        android:layout_height="120dp"
-        android:background="@drawable/rounded_top_blue_shape"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,13 +20,10 @@
             android:id="@+id/textViewAddTransactionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="118dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginEnd="117dp"
-            android:layout_marginBottom="38dp"
+            android:layout_marginTop="32dp"
             android:text="@string/add_transaction"
-            android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -150,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="@color/primary"
+                android:backgroundTint="@color/bDarkPurple"
                 android:text="@string/pick_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/selectedDateTextView" />
@@ -167,17 +163,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/primary"
+                    android:backgroundTint="@color/primary_blue"
                     android:text="@string/save" />
 
                 <Button
                     android:id="@+id/buttonCancelTransaction"
+                    style="?attr/materialButtonOutlinedStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#FF0505"
-                    android:text="@string/cancel" />
+                    android:text="@string/cancel"
+                    android:textColor="@color/expense_color" />
             </LinearLayout>
 
         </LinearLayout>
