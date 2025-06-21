@@ -1,58 +1,57 @@
-# 🍳 FlavourCraft
+# 💰 Grow – Personal Finance Tracker App
 
-**FlavourCraft** is a mobile UI prototype. It showcases the **frontend design and navigation flow** of an AI-powered recipe generation app.
-
-> - All features are represented visually through layouts and screen transitions.
-> - UI components are non-functional and used solely for demonstration of navigation and layout.
+**Grow** is a personal finance tracker mobile application designed to help users manage income and expenses, set monthly budgets, and visualize financial health. The app includes a complete **frontend interface with navigation and visual components**, and integrates with a basic **backend structure** to support user transactions and data handling.
 
 ---
 
-## 📱 Features
+## 📝 About the Project
 
-- **AI Recipe Generator**: Input ingredients and preferences to get custom recipe suggestions *(UI only)*.
-- **User Preferences**: Filter recipes by type (vegetarian, spicy, Italian, etc.).
-- **Save & Favorite Recipes**: Static screens for saved/favorite recipes.
-- **Explore Trending Recipes**: Explore sample trending recipe UI cards.
-- **Guided Cooking**: Visual mockups for guided cooking flows.
-- **Profile Management**: Basic profile UI with dietary preferences.
-- **Multi-Platform Login**: UI for Google and Facebook login screens.
+It enables users to:
+
+- Log income and expenses  
+- Set and update monthly budgets  
+- View category-wise spending reports  
+- Backup and restore data  
+- Use filtering and analysis tools  
+
+---
+
+## 📸 Screenshot
+
+![Overview](assets/)
+
+---
+
+## 📱 Core Features
+
+- Dashboard with real-time income/expense updates  
+- Add/Edit income and expense transactions  
+- Monthly budget tracking with progress visualization  
+- Filterable transaction history and category breakdown  
+- Data backup and restore interface  
+- User-friendly onboarding walkthrough screens  
 
 ---
 
 ## 🧠 How It Works
 
-*Visual demo only – no backend or functional logic*
-
-1. **User Inputs Ingredients & Preferences** (via form fields)
-2. **AI Suggests Recipes** *(mock screens with sample data)*
-3. **User Views Nutrition Info** *(static text)*
-4. **Recipes Can Be Saved & Cooked with Guidance** *(non-functional buttons)*
+1. **User Adds Transactions**  
+2. **Dashboard Reflects Data in Charts**  
+3. **Filters Update Transaction Views**  
+4. **Budget Displays Remaining Amount**  
 
 ---
 
-## 🌈 UI Design Approach
+## 🌈 UI Highlights
 
-- Followed the **60-30-10 color rule**:
-  - Primary: `#FF9500` (Orange)
-  - Secondary: `#FFFFFF` (White)
-  - Tertiary: `#36C93B` (Green)
-- Designed using **Material Design** guidelines
-- UI components styled via centralized `colors.xml` and `strings.xml`
-
----
-
-## 🖼️ Screenshots
-
-|[Splash](assets/splash.png)|
+- Modern and clean interface with bottom navigation  
+- Material Design principles applied for consistency  
+- Dynamic pie and progress charts for financial summaries  
 
 ---
 
 ## 🛠 Tech Stack
 
-- **Platform**: Android (Kotlin)
-- **IDE**: Android Studio
-- **UI/UX**: XML Layouts
-- **Design Resources**:
-  - `strings.xml` for localization
-  - `colors.xml` for theming
-- **No backend or logic implemented**
+- **Frontend**: Android (XML, Kotlin)  
+- **Backend**: Local storage with SharedPreferences  
+- **Tools**: Android Studio  
